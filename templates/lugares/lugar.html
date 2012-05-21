@@ -16,8 +16,11 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       var map = new google.maps.Map(document.getElementById("map_canvas"), options);
-      var html = " {{form.as_p|escapejs }} " +
-                 "<input type='button' value='Salvar y Salir' onclick='saveData()'/>";
+      var html = "<form method='POST' actions='.' >" +
+                 "{% csrf_token %}" +
+                 " {{form.as_p|escapejs }} " +
+                 "<input type='button' value='Salvar y Salir' onclick='saveData()'/>"+
+                 "</form>";
     infowindow = new google.maps.InfoWindow({
      content: html
     });
@@ -39,9 +42,7 @@
       var address = escape(document.getElementById("id_descripcion").value);
       var latlng = marker.getPosition();
  
-      var url = "/lugares/crear/"+ name + "/" + address
-                 + "/" + latlng.lat() + "/" + latlng.lng();
-      console.log(url)
+      var url = "/lugares/crear/";
       
       downloadUrl(url, function(data, responseCode) {
         if (responseCode == 200 && data.length <= 1) {
@@ -49,6 +50,7 @@
           document.getElementById("message").innerHTML = "Localidad registrada.";
         }
       });
+      console.log(downloadUrl)
     }
 
     function downloadUrl(url, callback) {
