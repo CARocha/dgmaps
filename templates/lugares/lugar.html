@@ -16,10 +16,8 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       var map = new google.maps.Map(document.getElementById("map_canvas"), options);
-      var html = "<table>" +
-                 "<tr><td>Lugar:</td> <td><input type='text' id='name'/> </td> </tr>" +
-                 "<tr><td>Descripcion:</td> <td><input type='textarea' id='address'/></td> </tr>" +
-                 "<tr><td></td><td><input type='button' value='Salvar y Salir' onclick='saveData()'/></td></tr>";
+      var html = " {{form.as_p|escapejs }} " +
+                 "<input type='button' value='Salvar y Salir' onclick='saveData()'/>";
     infowindow = new google.maps.InfoWindow({
      content: html
     });
@@ -37,12 +35,14 @@
     }
 
     function saveData() {
-      var name = escape(document.getElementById("name").value);
-      var address = escape(document.getElementById("address").value);
+      var name = escape(document.getElementById("id_nombre").value);
+      var address = escape(document.getElementById("id_descripcion").value);
       var latlng = marker.getPosition();
  
-      var url = "/lugares/crear" + "&name=" + name 
-                 + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
+      var url = "/lugares/crear/"+ name + "/" + address
+                 + "/" + latlng.lat() + "/" + latlng.lng();
+      console.log(url)
+      
       downloadUrl(url, function(data, responseCode) {
         if (responseCode == 200 && data.length <= 1) {
           infowindow.close();

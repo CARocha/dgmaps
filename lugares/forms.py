@@ -6,3 +6,4 @@ from models import *
 class LugarForm(ModelForm):
     class Meta:
         model = Lugar
+        exclude = ('user','lat','lng',)
