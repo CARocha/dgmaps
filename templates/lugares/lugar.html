@@ -3,6 +3,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <title>Google Maps JavaScript API v3 Example: Map Simple</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
     var marker;
@@ -16,7 +17,7 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       var map = new google.maps.Map(document.getElementById("map_canvas"), options);
-      var html = "<form method='POST' actions='.' >" +
+      var html = "<form method='POST' action='.' >" +
                  "{% csrf_token %}" +
                  " {{form.as_p|escapejs }} " +
                  "<input type='button' value='Salvar y Salir' onclick='saveData()'/>"+
@@ -43,14 +44,18 @@
       var latlng = marker.getPosition();
  
       var url = "/lugares/crear/";
-      
-      downloadUrl(url, function(data, responseCode) {
-        if (responseCode == 200 && data.length <= 1) {
-          infowindow.close();
-          document.getElementById("message").innerHTML = "Localidad registrada.";
-        }
+
+      $.post("/lugares/crear/", { 'nombre': name, 'descripcion': address, 'latitud': latlng.lat(), 'longitud': latlng.lng()},
+        function(data) {
+          //console.log(data)
       });
-      console.log(downloadUrl)
+      
+      //downloadUrl(url, function(data, responseCode) {
+      //  if (responseCode == 200 && data.length <= 1) {
+      //    infowindow.close();
+      //    document.getElementById("message").innerHTML = "Localidad registrada.";
+      //  }
+      //});
     }
 
     function downloadUrl(url, callback) {

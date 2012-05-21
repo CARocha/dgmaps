@@ -18,8 +18,8 @@ def guardar_mapa(request):
         if form.is_valid():
             forms_uncommited = form.save(commit=False)
             forms_uncommited.user = request.user
-            forms_uncommited.lat = request.POST['lat']
-            forms_uncommited.lng = request.POST['lng']
+            forms_uncommited.lat = request.POST['latitud']
+            forms_uncommited.lng = request.POST['longitud']
             forms_uncommited.save()
 
     else:
