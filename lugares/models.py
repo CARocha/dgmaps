@@ -12,3 +12,7 @@ class Lugar(models.Model):
 
     def __unicode__(self):
     	return self.nombre
+
+    def nombre1(self):
+    	return u'%s' % self.nombre
+    nombre1.allow_tags = True

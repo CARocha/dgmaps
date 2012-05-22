@@ -13,7 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 def guardar_mapa(request):
     if request.method == 'POST':
         form = LugarForm(request.POST)
-        print form
 
         if form.is_valid():
             forms_uncommited = form.save(commit=False)
@@ -26,3 +25,10 @@ def guardar_mapa(request):
         form = LugarForm()
     return render_to_response('lugares/lugar.html', locals(),
     	                        context_instance=RequestContext(request))
+
+
+def mostrar_globo(request):
+    globos = Lugar.objects.filter(user=request.user)
+
+    return render_to_response('lugares/mostrar.html', locals(),
+                                context_instance=RequestContext(request))

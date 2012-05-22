@@ -6,7 +6,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
-    var marker;
     var infowindow;
 
     function initialize() {
@@ -17,50 +16,9 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       var map = new google.maps.Map(document.getElementById("map_canvas"), options);
-      var html = "<form method='POST' action='.' >" +
-                 "{% csrf_token %}" +
-                 " {{form.as_p|escapejs }} " +
-                 "<input type='button' value='Salvar y Salir' onclick='saveData()'/>"+
-                 "</form>";
-    infowindow = new google.maps.InfoWindow({
-     content: html
-    });
- 
-    google.maps.event.addListener(map, "click", function(event) {
-        marker = new google.maps.Marker({
-          position: event.latLng,
-          map: map,
-          draggable: true
-        });
-        google.maps.event.addListener(marker, "click", function() {
-          infowindow.open(map, marker);
-        });
-    });
-    }
 
-    function saveData() {
-      var name = escape(document.getElementById("id_nombre").value);
-      var address = escape(document.getElementById("id_descripcion").value);
-      var latlng = marker.getPosition();
- 
-      var url = "/lugares/crear/";
 
-      $.post("/lugares/crear/", 
-          { 'nombre': name, 'descripcion': address, 'latitud': latlng.lat(), 'longitud': latlng.lng() },
-        function(data) {
-          
-            infowindow.close();
-         
-          //console.log(data)
-      });
       
-      //downloadUrl(url, function(data, responseCode) {
-      //  if (responseCode == 200 && data.length <= 1) {
-      //    infowindow.close();
-      //    document.getElementById("message").innerHTML = "Localidad registrada.";
-      //  }
-      //});
-    }
 
     function downloadUrl(url, callback) {
       var request = window.ActiveXObject ?
