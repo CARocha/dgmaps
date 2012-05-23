@@ -6,9 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
-    var infowindow;
-
-    function initialize() {
+     function initialize() {
       var latlng = new google.maps.LatLng(12.877, -85.001);
       var options = {
         zoom: 7,
@@ -16,7 +14,34 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       var map = new google.maps.Map(document.getElementById("map_canvas"), options);
-}
+
+      
+            $.getJSON('/lugares/ver/', function(data){
+                $.each(data, function(i, elemento){
+                    var latlng = new google.maps.LatLng(elemento.lat, elemento.lon);
+                    var marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map,
+                        name: elemento.nombre,
+                        //icon: image,                        
+                        //item: item,
+                        desc: elemento.descripcion                        
+                    });
+                    attachInfowindow(marker, elemento.id, item, elemento.nombre);                    
+                    markers.push(marker);                    
+                });
+                var markerCluster = new MarkerClusterer(map, markers);
+            });
+               
+
+
+
+
+
+} //fin del initialize
+
+    
+
 
     </script>
   </head>
@@ -26,7 +51,7 @@
     <div id="message"></div>
 
     {% for a in globos %}
-      {{a}}<br>
+      ({{a.lat}},{{a.lng}}) >>> {{a}}<br>
     {% endfor %}
   </body>
 

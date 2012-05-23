@@ -39,8 +39,8 @@
     }
 
     function saveData() {
-      var name = escape(document.getElementById("id_nombre").value);
-      var address = escape(document.getElementById("id_descripcion").value);
+      var name = unescape(document.getElementById("id_nombre").value);
+      var address = unescape(document.getElementById("id_descripcion").value);
       var latlng = marker.getPosition();
  
       var url = "/lugares/crear/";
