@@ -29,7 +29,7 @@ def guardar_mapa(request):
     return render_to_response('lugares/lugar.html', locals(),
     	                        context_instance=RequestContext(request))
 
-
+@login_required
 def mostrar_globo(request):
     globos = Lugar.objects.filter(user=request.user)
     if request.is_ajax():
@@ -46,12 +46,14 @@ def mostrar_globo(request):
 
     #return render_to_response('lugares/mostrar.html', locals(),
     #                            context_instance=RequestContext(request))
-
+@login_required
 def index(request):
     globos = Lugar.objects.filter(user=request.user)
 
     return render_to_response('index.html', locals(),
                             context_instance=RequestContext(request))
+
+@login_required    
 def eliminar(request, id):
     globos_delete = Lugar.objects.get(id=id)
     globos_delete.delete()
