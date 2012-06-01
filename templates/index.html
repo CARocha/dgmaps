@@ -34,27 +34,20 @@
         		});                     
                 });
             });
-               
-
-
-
-
 
 } //fin del initialize
 
-    
-
-
     </script>
   </head>
-
+{% for a in globos %}
+    <b>{{a}}</b> <a href="/lugares/eliminar/{{a.id}}">Eliminar</a>
+    <br>
+    {% endfor %}
   <body style="margin:0px; padding:0px;" onload="initialize()">
     <div id="map_canvas" style="width: 500px; height: 300px"></div>
     <div id="message"></div>
 
-    {% for a in globos %}
-      ({{a.lat}},{{a.lng}}) >>> {{a}}<br>
-    {% endfor %}
+    
   </body>
 
 </html>

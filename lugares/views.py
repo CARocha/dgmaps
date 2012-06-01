@@ -1,16 +1,17 @@
 
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 from lugares.models import Lugar
 from forms import LugarForm
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 @csrf_exempt
+@login_required
 def guardar_mapa(request):
     if request.method == 'POST':
         form = LugarForm(request.POST)
@@ -40,8 +41,18 @@ def mostrar_globo(request):
             lista.append(dicc)
 
         serializado = simplejson.dumps(lista)
-        print serializado
+        #print serializado
         return HttpResponse(serializado, mimetype='application/json')
 
     #return render_to_response('lugares/mostrar.html', locals(),
     #                            context_instance=RequestContext(request))
+
+def index(request):
+    globos = Lugar.objects.filter(user=request.user)
+
+    return render_to_response('index.html', locals(),
+                            context_instance=RequestContext(request))
+def eliminar(request, id):
+    globos_delete = Lugar.objects.get(id=id)
+    globos_delete.delete()
+    return HttpResponse('Se ha eliminado con exito')
