@@ -46,7 +46,7 @@
       var url = "/lugares/crear/";
 
       $.post("/lugares/crear/", 
-          { 'nombre': name, 'descripcion': address, 'latitud': latlng.lat(), 'longitud': latlng.lng() },
+          { 'nombre': name, 'descripcion': address, 'latitud': latlng.lat(), 'longitud': latlng.lng(), csrfmiddlewaretoken: '{{ csrf_token }}' },
         function(data) {
           
             infowindow.close();

@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@csrf_exempt
+#@csrf_exempt
 @login_required
 def guardar_mapa(request):
     if request.method == 'POST':
